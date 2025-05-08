@@ -10,10 +10,7 @@ on:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [windows-latest, ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
@@ -37,12 +34,10 @@ jobs:
       - name: Upload packaged application
         uses: actions/upload-artifact@v4
         with:
-          name: Reduced-Diagnostic-Data-Language-Pack-${{ matrix.os }}
-          path: |
-            dist/Reduced-Diagnostic-Data-Language-Pack${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+          name: Reduced-Diagnostic-Data-Language-Pack.exe
+          path: dist/Reduced-Diagnostic-Data-Language-Pack.exe
 
       - name: Create GitHub Release
-        if: ${{ matrix.os == 'windows-latest' }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -54,13 +49,11 @@ jobs:
           prerelease: false
 
       - name: Upload Release Asset
-        if: ${{ always() }}
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: |
-            dist/Reduced-Diagnostic-Data-Language-Pack${{ matrix.os == 'windows-latest' && '.exe' || '' }}
-          asset_name: Reduced-Diagnostic-Data-Language-Pack-${{ matrix.os }}${{ matrix.os == 'windows-latest' && '.exe' || '' }}
+          asset_path: dist/Reduced-Diagnostic-Data-Language-Pack.exe
+          asset_name: Reduced-Diagnostic-Data-Language-Pack.exe
           asset_content_type: application/octet-stream
