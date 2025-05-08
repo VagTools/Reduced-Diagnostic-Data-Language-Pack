@@ -33,3 +33,4 @@ pip install pyinstaller
 pyinstaller --hidden-import=win32timezone --onefile --noconsole --icon=src/VW.ico --name=Reduced-Diagnostic-Data-Language-Pack --collect-binaries=pyzbar --add-data "src/VW.ico;src" .\src\Reduced-Diagnostic-Data-Language-Pack.py
 ```
 打包后的可执行文件将位于 `dist` 目录中。
+
